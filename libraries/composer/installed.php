@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'name' => 'fivefilters.org/full-text-rss',
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '0b875114ef34ab8d234056b066fea97db0ef1d97',
+        'type' => 'project',
+        'install_path' => __DIR__ . '/../',
+        'aliases' => array(),
+        'dev' => true,
+    ),
+    'versions' => array(
+        'fivefilters.org/full-text-rss' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '0b875114ef34ab8d234056b066fea97db0ef1d97',
+            'type' => 'project',
+            'install_path' => __DIR__ . '/../',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'masterminds/html5' => array(
+            'pretty_version' => '2.7.6',
+            'version' => '2.7.6.0',
+            'reference' => '897eb517a343a2281f11bc5556d6548db7d93947',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../masterminds/html5',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'simplepie/simplepie' => array(
+            'pretty_version' => '1.6.0',
+            'version' => '1.6.0.0',
+            'reference' => '2bdbc51ed1010941c9c5f2cddca433e79665bfe1',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../simplepie/simplepie',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+    ),
+);
