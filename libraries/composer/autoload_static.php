@@ -10,6 +10,20 @@ class ComposerStaticInit0a58a3984fc6363c165b62a4e2d4dd87
         'e8b9612bd57a56c6db24fda32a44eac2' => __DIR__ . '/..' . '/simplepie/simplepie/library/SimplePie.php',
     );
 
+    public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'SimplePie\\' => 10,
+        ),
+    );
+
+    public static $prefixDirsPsr4 = array (
+        'SimplePie\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/simplepie/simplepie/src',
+        ),
+    );
+
     public static $prefixesPsr0 = array (
         'S' => 
         array (
@@ -23,6 +37,39 @@ class ComposerStaticInit0a58a3984fc6363c165b62a4e2d4dd87
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'SimplePie' => __DIR__ . '/..' . '/simplepie/simplepie/library/SimplePie.php',
+        'SimplePie\\Author' => __DIR__ . '/..' . '/simplepie/simplepie/src/Author.php',
+        'SimplePie\\Cache' => __DIR__ . '/..' . '/simplepie/simplepie/src/Cache.php',
+        'SimplePie\\Cache\\Base' => __DIR__ . '/..' . '/simplepie/simplepie/src/Cache/Base.php',
+        'SimplePie\\Cache\\DB' => __DIR__ . '/..' . '/simplepie/simplepie/src/Cache/DB.php',
+        'SimplePie\\Cache\\File' => __DIR__ . '/..' . '/simplepie/simplepie/src/Cache/File.php',
+        'SimplePie\\Cache\\Memcache' => __DIR__ . '/..' . '/simplepie/simplepie/src/Cache/Memcache.php',
+        'SimplePie\\Cache\\Memcached' => __DIR__ . '/..' . '/simplepie/simplepie/src/Cache/Memcached.php',
+        'SimplePie\\Cache\\MySQL' => __DIR__ . '/..' . '/simplepie/simplepie/src/Cache/MySQL.php',
+        'SimplePie\\Cache\\Redis' => __DIR__ . '/..' . '/simplepie/simplepie/src/Cache/Redis.php',
+        'SimplePie\\Caption' => __DIR__ . '/..' . '/simplepie/simplepie/src/Caption.php',
+        'SimplePie\\Category' => __DIR__ . '/..' . '/simplepie/simplepie/src/Category.php',
+        'SimplePie\\Content\\Type\\Sniffer' => __DIR__ . '/..' . '/simplepie/simplepie/src/Content/Type/Sniffer.php',
+        'SimplePie\\Copyright' => __DIR__ . '/..' . '/simplepie/simplepie/src/Copyright.php',
+        'SimplePie\\Credit' => __DIR__ . '/..' . '/simplepie/simplepie/src/Credit.php',
+        'SimplePie\\Enclosure' => __DIR__ . '/..' . '/simplepie/simplepie/src/Enclosure.php',
+        'SimplePie\\Exception' => __DIR__ . '/..' . '/simplepie/simplepie/src/Exception.php',
+        'SimplePie\\File' => __DIR__ . '/..' . '/simplepie/simplepie/src/File.php',
+        'SimplePie\\Gzdecode' => __DIR__ . '/..' . '/simplepie/simplepie/src/Gzdecode.php',
+        'SimplePie\\HTTP\\Parser' => __DIR__ . '/..' . '/simplepie/simplepie/src/HTTP/Parser.php',
+        'SimplePie\\IRI' => __DIR__ . '/..' . '/simplepie/simplepie/src/IRI.php',
+        'SimplePie\\Item' => __DIR__ . '/..' . '/simplepie/simplepie/src/Item.php',
+        'SimplePie\\Locator' => __DIR__ . '/..' . '/simplepie/simplepie/src/Locator.php',
+        'SimplePie\\Misc' => __DIR__ . '/..' . '/simplepie/simplepie/src/Misc.php',
+        'SimplePie\\Net\\IPv6' => __DIR__ . '/..' . '/simplepie/simplepie/src/Net/IPv6.php',
+        'SimplePie\\Parse\\Date' => __DIR__ . '/..' . '/simplepie/simplepie/src/Parse/Date.php',
+        'SimplePie\\Parser' => __DIR__ . '/..' . '/simplepie/simplepie/src/Parser.php',
+        'SimplePie\\Rating' => __DIR__ . '/..' . '/simplepie/simplepie/src/Rating.php',
+        'SimplePie\\Registry' => __DIR__ . '/..' . '/simplepie/simplepie/src/Registry.php',
+        'SimplePie\\Restriction' => __DIR__ . '/..' . '/simplepie/simplepie/src/Restriction.php',
+        'SimplePie\\Sanitize' => __DIR__ . '/..' . '/simplepie/simplepie/src/Sanitize.php',
+        'SimplePie\\SimplePie' => __DIR__ . '/..' . '/simplepie/simplepie/src/SimplePie.php',
+        'SimplePie\\Source' => __DIR__ . '/..' . '/simplepie/simplepie/src/Source.php',
+        'SimplePie\\XML\\Declaration\\Parser' => __DIR__ . '/..' . '/simplepie/simplepie/src/XML/Declaration/Parser.php',
         'SimplePie_Author' => __DIR__ . '/..' . '/simplepie/simplepie/library/SimplePie/Author.php',
         'SimplePie_Cache' => __DIR__ . '/..' . '/simplepie/simplepie/library/SimplePie/Cache.php',
         'SimplePie_Cache_Base' => __DIR__ . '/..' . '/simplepie/simplepie/library/SimplePie/Cache/Base.php',
@@ -62,6 +109,8 @@ class ComposerStaticInit0a58a3984fc6363c165b62a4e2d4dd87
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
+            $loader->prefixLengthsPsr4 = ComposerStaticInit0a58a3984fc6363c165b62a4e2d4dd87::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit0a58a3984fc6363c165b62a4e2d4dd87::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit0a58a3984fc6363c165b62a4e2d4dd87::$prefixesPsr0;
             $loader->classMap = ComposerStaticInit0a58a3984fc6363c165b62a4e2d4dd87::$classMap;
 
