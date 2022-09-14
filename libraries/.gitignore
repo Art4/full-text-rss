@@ -1,0 +1,10 @@
+simplepie/simplepie/.*
+simplepie/simplepie/autoloader.php
+simplepie/simplepie/build/
+simplepie/simplepie/compatibility_test/
+simplepie/simplepie/db.sql
+simplepie/simplepie/demo/
+simplepie/simplepie/idn/
+simplepie/simplepie/phpunit.xml.dist
+simplepie/simplepie/ROADMAP.md
+simplepie/simplepie/tests/

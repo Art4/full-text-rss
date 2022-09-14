@@ -42,6 +42,8 @@ if (_FF_FTR_MODE === 'simple') {
 	$_REQUEST = $_GET;
 }
 
+require dirname(__FILE__).'/libraries/autoload.php';
+
 // set include path
 set_include_path(realpath(dirname(__FILE__).'/libraries').PATH_SEPARATOR.get_include_path());
 // Autoloading of classes allows us to include files only when they're
@@ -67,7 +69,7 @@ function autoload($class_name) {
 		// Language detect
 		'Text_LanguageDetect' => 'language-detect/LanguageDetect.php',
 		// HTML5 PHP (can't be used unless PHP version is >= 5.3)
-		'Masterminds\HTML5' => 'html5php/HTML5.php',		
+		'Masterminds\HTML5' => 'html5php/HTML5.php',
 		// htmLawed - used if XSS filter is enabled (xss_filter)
 		'htmLawed' => 'htmLawed/htmLawed.php',
 		// Disable SimplePie sanitization
@@ -82,7 +84,6 @@ function autoload($class_name) {
 	}
 }
 spl_autoload_register('autoload');
-require dirname(__FILE__).'/libraries/simplepie/autoloader.php';
 require dirname(__FILE__).'/libraries/html5php/autoloader.php';
 
 ////////////////////////////////
@@ -108,8 +109,8 @@ header("Content-Security-Policy: script-src 'self'; connect-src 'none'; font-src
 ////////////////////////////////
 // Check if service is enabled
 ////////////////////////////////
-if (!$options->enabled) { 
-	die('The full-text RSS service is currently disabled'); 
+if (!$options->enabled) {
+	die('The full-text RSS service is currently disabled');
 }
 
 //////////////////////////////////
@@ -162,8 +163,8 @@ $options->smart_cache = $options->smart_cache && function_exists('apc_inc');
 ////////////////////////////////
 // Check for feed URL
 ////////////////////////////////
-if (!isset($_REQUEST['url'])) { 
-	die('No URL supplied'); 
+if (!isset($_REQUEST['url'])) {
+	die('No URL supplied');
 }
 $url = trim($_REQUEST['url']);
 if (strtolower(substr($url, 0, 6)) == 'sec://') {
@@ -201,7 +202,7 @@ if ((_FF_FTR_MODE == 'full') && isset($_REQUEST['key']) && ($key_index = array_s
 
 ///////////////////////////////////////////////
 // Set timezone.
-// Prevents warnings, but needs more testing - 
+// Prevents warnings, but needs more testing -
 // perhaps if timezone is set in php.ini we
 // don't need to set it at all...
 ///////////////////////////////////////////////
@@ -210,7 +211,7 @@ if (!ini_get('date.timezone') || !@date_default_timezone_set(ini_get('date.timez
 }
 
 ///////////////////////////////////////////////
-// Should we treat input URL as feed or HTML? 
+// Should we treat input URL as feed or HTML?
 ///////////////////////////////////////////////
 $accept = 'auto';
 if (isset($_REQUEST['accept']) && in_array(strtolower($_REQUEST['accept']), array('html', 'feed', 'auto'))) {
@@ -220,7 +221,7 @@ if (isset($_REQUEST['accept']) && in_array(strtolower($_REQUEST['accept']), arra
 }
 
 ///////////////////////////////////////////////
-// User-submitted site config 
+// User-submitted site config
 ///////////////////////////////////////////////
 $user_submitted_config = null;
 if (isset($_REQUEST['siteconfig'])) {
@@ -246,7 +247,7 @@ if (!$valid_key && _FF_FTR_MODE === 'simple' && isset($_REQUEST['key'])) {
 	if ($key_index !== false) $valid_key = true;
 }
 if (!$valid_key && $options->key_required) {
-	die('A valid key must be supplied'); 
+	die('A valid key must be supplied');
 }
 if (!$valid_key && isset($_REQUEST['key']) && $_REQUEST['key'] != '') {
 	die('The entered key is invalid');
@@ -463,7 +464,7 @@ if (isset($_REQUEST['inputhtml']) && _FF_FTR_MODE == 'simple') {
 	// disable multi-page processing (what we have is what we have)
 	$options->singlepage = false;
 	$options->multipage = false;
-	// disable disk caching 
+	// disable disk caching
 	$options->caching = false;
 }
 
@@ -637,7 +638,7 @@ if ($accept === 'html' || !$result) {
 		public function get_enclosure($key=0, $prefer=null) { return null; }
 		public function get_enclosures() { return null; }
 		public function get_categories() { return null; }
-		public function get_item_tags($namespace='', $tag='') { return null; }		
+		public function get_item_tags($namespace='', $tag='') { return null; }
 	}
 	$feed = new DummySingleItemFeed($url);
 }
@@ -668,7 +669,7 @@ if ($img_url = $feed->get_image_url()) {
 ////////////////////////////////////////////
 // Loop through feed items
 ////////////////////////////////////////////
-$items = $feed->get_items(0, $max);	
+$items = $feed->get_items(0, $max);
 // Request all feed items in parallel (if supported)
 $urls_sanitized = array();
 $urls = array();
@@ -781,7 +782,7 @@ foreach ($items as $key => $item) {
 				if ($do_content_extraction) {
 					$html = $single_page_response['body'];
 					// remove strange things
-					$html = str_replace('</[>', '', $html);	
+					$html = str_replace('</[>', '', $html);
 					$html = convert_to_utf8($html, $single_page_response['headers']);
 					debug("Retrieved single-page view from $effective_url");
 				}
@@ -807,7 +808,7 @@ foreach ($items as $key => $item) {
 			}
 			$base_url = get_base_url($readability->dom, $effective_url);
 			if (!$base_url) $base_url = $effective_url;
-			$content_block = ($extract_result) ? $extractor->getContent() : null;			
+			$content_block = ($extract_result) ? $extractor->getContent() : null;
 			$extracted_title = ($extract_result) ? $extractor->getTitle() : '';
 			// Deal with multi-page articles
 			//die('Next: '.$extractor->getNextPageUrl());
@@ -825,7 +826,7 @@ foreach ($items as $key => $item) {
 						// check it's not what we have already!
 						if (!in_array($next_page_url, $multi_page_urls)) {
 							// it's not, so let's attempt to fetch it
-							$multi_page_urls[] = $next_page_url;						
+							$multi_page_urls[] = $next_page_url;
 							$_prev_ref = $http->referer;
 							if (($response = $http->get($next_page_url, true)) && $response['status_code'] < 300) {
 								// make sure mime type is not something with a different action associated
@@ -969,13 +970,13 @@ foreach ($items as $key => $item) {
 		$newitem->addElement('guid', $_guid);
 	}
 	unset($_g, $_guid, $_ispermalink);
-	
+
 	// filter xss?
 	if ($xss_filter) {
 		debug('Filtering HTML to remove XSS');
 		$html = htmLawed::hl($html, array('safe'=>1, 'deny_attribute'=>'style', 'comment'=>1, 'cdata'=>1));
 	}
-	
+
 	// add content
 	if ($options->summary === true) {
 		// get summary
@@ -1001,14 +1002,14 @@ foreach ($items as $key => $item) {
 	} else {
 		if ($options->content) $newitem->setDescription($html);
 	}
-	
+
 	// set date
 	if ((int)$item->get_date('U') > 0) {
 		$newitem->setDate((int)$item->get_date('U'));
 	} elseif ($extractor->getDate()) {
 		$newitem->setDate($extractor->getDate());
 	}
-	
+
 	// add authors
 	if ($authors = $item->get_authors()) {
 		foreach ($authors as $author) {
@@ -1042,7 +1043,7 @@ foreach ($items as $key => $item) {
 		}
 	}
 	unset($_prop, $_val);
-	
+
 	// add language
 	if ($detect_language) {
 		$language = $extractor->getLanguage();
@@ -1055,7 +1056,7 @@ foreach ($items as $key => $item) {
 					$res = $php_cld($text_sample);
 					if (is_array($res) && count($res) > 0) {
 						$language = $res[0]['code'];
-					}	
+					}
 				} else {
 					//die('what');
 					// Use PEAR's Text_LanguageDetect
@@ -1070,15 +1071,15 @@ foreach ($items as $key => $item) {
 					}
 				}
 			} catch (Exception $e) {
-				//die('error: '.$e);	
+				//die('error: '.$e);
 				// do nothing
 			}
 		}
-		if ($language && (strlen($language) < 7)) {	
+		if ($language && (strlen($language) < 7)) {
 			$newitem->addElement('dc:language', $language);
 		}
 	}
-	
+
 	// add MIME type (if it appeared in our exclusions lists)
 	if (isset($mime_info['mime'])) $newitem->addElement('dc:format', $mime_info['mime']);
 	// add effective URL (URL after redirects)
@@ -1095,7 +1096,7 @@ foreach ($items as $key => $item) {
 	if ($extractor->isNativeAd()) {
 		$newitem->addElement('dc:type', 'Native Ad');
 	}
-	
+
 	// add categories
 	if ($categories = $item->get_categories()) {
 		foreach ($categories as $category) {
@@ -1104,7 +1105,7 @@ foreach ($items as $key => $item) {
 			}
 		}
 	}
-	
+
 	// check for enclosures
 	if ($options->keep_enclosures) {
 		if ($enclosures = $item->get_enclosures()) {
@@ -1211,20 +1212,20 @@ function get_self_url() {
 		$self .= '&key='.urlencode($_GET['key']);
 		$self .= '&hash='.urlencode($_GET['hash']);
 	}
-	
+
 	if (isset($_GET['html'])) $self .= '&html='.urlencode($_GET['html']);
-	if (isset($_GET['accept'])) $self .= '&accept='.urlencode($_GET['accept']);		
+	if (isset($_GET['accept'])) $self .= '&accept='.urlencode($_GET['accept']);
 	if (isset($_GET['max'])) $self .= '&max='.(int)$_GET['max'];
 	if (isset($_GET['links'])) $self .= '&links='.urlencode($_GET['links']);
 	if (isset($_GET['images'])) $self .= '&images='.urlencode($_GET['images']);
 	if (isset($_GET['exc'])) $self .= '&exc='.urlencode($_GET['exc']);
 	if (isset($_GET['format'])) $self .= '&format='.urlencode($_GET['format']);
-	if (isset($_GET['callback'])) $self .= '&callback='.urlencode($_GET['callback']);	
+	if (isset($_GET['callback'])) $self .= '&callback='.urlencode($_GET['callback']);
 	if (isset($_GET['l'])) $self .= '&l='.urlencode($_GET['l']);
 	if (isset($_GET['lang'])) $self .= '&lang='.urlencode($_GET['lang']);
 	if (isset($_GET['xss'])) $self .= '&xss';
 	if (isset($_GET['use_extracted_title'])) $self .= '&use_extracted_title';
-	if (isset($_GET['use_effective_url'])) $self .= '&use_effective_url';	
+	if (isset($_GET['use_effective_url'])) $self .= '&use_effective_url';
 	if (isset($_GET['content'])) $self .= '&content='.urlencode($_GET['content']);
 	if (isset($_GET['summary'])) $self .= '&summary='.urlencode($_GET['summary']);
 	if (isset($_GET['debug'])) $self .= '&debug';
@@ -1437,7 +1438,7 @@ function make_absolute($base, $elem) {
 }
 function make_absolute_attr($base, $e, $attr) {
 	if ($e->hasAttribute($attr)) {
-		// Trim leading and trailing white space. I don't really like this but 
+		// Trim leading and trailing white space. I don't really like this but
 		// unfortunately it does appear on some sites. e.g.  <img src=" /path/to/image.jpg" />
 		$url = trim(str_replace('%20', ' ', $e->getAttribute($attr)));
 		$url = str_replace(' ', '%20', $url);

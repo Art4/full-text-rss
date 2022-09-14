@@ -1,0 +1,23 @@
+{
+    "name": "fivefilters.org/full-text-rss",
+    "description": "Extract the full article content from a web page or a summary-only RSS feed.",
+    "type": "project",
+    "homepage": "https://fivefilters.org/",
+    "license": "AGPL-3.0",
+    "require": {
+        "php": ">=7.2.0",
+        "simplepie/simplepie": "1.5.5"
+    },
+    "config": {
+        "sort-packages": true,
+        "vendor-dir": "./"
+    },
+    "autoload": {
+        "files": [
+            "simplepie/simplepie/library/SimplePie.php"
+        ]
+    },
+    "scripts": {
+        "post-update-cmd": "git clean -d -f -X ."
+    }
+}

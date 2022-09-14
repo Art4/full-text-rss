@@ -11,7 +11,7 @@ to it at www.example.com/ftr_compatibility_test.php
 If things don't look right, have a look at our hosting suggestions:
 http://help.fivefilters.org/customer/portal/articles/1143210-hosting
 
-Note: This compatibility test has been borrowed (and slightly adapted) from the one supplied by 
+Note: This compatibility test has been borrowed (and slightly adapted) from the one supplied by
 SimplePie.org. We have kept most of their checks intact as we use SimplePie in our application.
 http://github.com/simplepie/simplepie/tree/master/compatibility_test/
 */
@@ -21,7 +21,7 @@ $app_name = 'Full-Text RSS 3.8';
 // Full-Text RSS is not yet compatible with HHVM, that's why we check for it with HHVM_VERSION.
 //$php_ok = (function_exists('version_compare') && version_compare(phpversion(), '5.2.0', '>=') && !defined('HHVM_VERSION'));
 // HHVM works okay, but no Tidy and autoupdate of site config files not working (tested 3.7.1)
-$php_ok = (function_exists('version_compare') && version_compare(phpversion(), '5.4.0', '>='));
+$php_ok = (function_exists('version_compare') && version_compare(phpversion(), '7.2.0', '>='));
 $pcre_ok = extension_loaded('pcre');
 $zlib_ok = extension_loaded('zlib');
 $mbstring_ok = extension_loaded('mbstring');
@@ -158,7 +158,7 @@ table.chart tr.enabled td {
 	/* Leave this alone */
 }
 
-table.chart tr.disabled td, 
+table.chart tr.disabled td,
 table.chart tr.disabled td a {
 	color:#999;
 	font-style:italic;
@@ -206,7 +206,7 @@ div.chunk {
 				<tbody>
 					<tr class="<?php echo ($php_ok) ? 'enabled' : 'disabled'; ?>">
 						<td>PHP</td>
-						<td>5.4 or higher</td>
+						<td>7.2 or higher</td>
 						<td><?php echo phpversion(); ?></td>
 					</tr>
 					<tr class="<?php echo ($xml_ok) ? 'enabled, and sane' : 'disabled, or broken'; ?>">
@@ -238,7 +238,7 @@ div.chunk {
 						<td><a href="http://uk.php.net/manual/en/book.filter.php">Data filtering</a></td>
 						<td>Enabled</td>
 						<td><?php echo ($filter_ok) ? 'Enabled' : 'Disabled'; ?></td>
-					</tr>					
+					</tr>
 					<tr class="<?php echo ($tidy_ok) ? 'enabled' : 'disabled'; ?>">
 						<td><a href="http://php.net/tidy">Tidy</a></td>
 						<td>Enabled</td>
@@ -263,11 +263,11 @@ div.chunk {
 						<td><a href="http://php.net/manual/en/book.dom.php">DOM / XML extension</a></td>
 						<td>Enabled</td>
 						<td><?php echo ($dom_ok) ? 'Enabled' : 'Disabled'; ?></td>
-					</tr>	
+					</tr>
 				</tbody>
 			</table>
 		</div>
-		
+
 		<div class="chunk">
 			<h3>What does this mean?</h3>
 			<ol>
@@ -280,19 +280,19 @@ div.chunk {
 							<li><strong>XML:</strong> You have XMLReader support or a version of XML support that isn't broken installed.  No problems here.</li>
 							<?php if ($pcre_ok): ?>
 								<li><strong>PCRE:</strong> You have PCRE support installed. No problems here.</li>
-								
+
 								<?php if ($allow_url_fopen_ok): ?>
 									<li><strong>allow_url_fopen:</strong> You have allow_url_fopen enabled. No problems here.</li>
-									
+
 									<?php if ($filter_ok): ?>
 										<li><strong>Data filtering:</strong> You have the PHP filter extension enabled. No problems here.</li>
-	
+
 										<?php if ($zlib_ok): ?>
 											<li><strong>Zlib:</strong> You have <code>Zlib</code> enabled.  This allows SimplePie to support GZIP-encoded feeds.  No problems here.</li>
 										<?php else: ?>
 											<li class="highlight"><strong>Zlib:</strong> The <code>Zlib</code> extension is not available.  SimplePie will ignore any GZIP-encoding, and instead handle feeds as uncompressed text.</li>
 										<?php endif; ?>
-			
+
 										<?php if ($mbstring_ok && $iconv_ok): ?>
 											<li><strong>mbstring and iconv:</strong> You have both <code>mbstring</code> and <code>iconv</code> installed!  This will allow <?php echo $app_name; ?> to handle the greatest number of languages. No problems here.</li>
 										<?php elseif ($mbstring_ok): ?>
@@ -308,13 +308,13 @@ div.chunk {
 										<?php else: ?>
 											<li class="highlight"><strong>Tidy:</strong> The <code>Tidy</code> extension is not available.  <?php echo $app_name; ?> should still work with most feeds/articles, but you may experience problems with some. For problem feeds we recommend you use the HTML5 parser.</li>
 										<?php endif; ?>
-										
+
 										<?php if ($curl_ok): ?>
 											<li><strong>cURL:</strong> You have <code>cURL</code> support installed.  No problems here.</li>
 										<?php else: ?>
 											<li class="highlight"><strong>cURL:</strong> The <code>cURL</code> extension is not available.  SimplePie will use <code>fsockopen()</code> instead.</li>
 										<?php endif; ?>
-			
+
 										<?php if ($parallel_ok): ?>
 											<li><strong>Parallel URL fetching:</strong> You have PHP's HTTP extension or <code>curl_multi</code> installed.  No problems here.</li>
 										<?php else: ?>
@@ -323,12 +323,12 @@ div.chunk {
 
 									<?php else: ?>
 										<li class="highlight"><strong>Data filtering:</strong> Your PHP configuration has the filter extension disabled.  <em><?php echo $app_name; ?> will not work here.</em></li>
-									<?php endif; ?>										
-										
+									<?php endif; ?>
+
 								<?php else: ?>
 									<li class="highlight"><strong>allow_url_fopen:</strong> Your PHP configuration has allow_url_fopen disabled.  <em><?php echo $app_name; ?> will not work here.</em></li>
 								<?php endif; ?>
-									
+
 							<?php else: ?>
 								<li class="highlight"><strong>PCRE:</strong> Your PHP installation doesn't support Perl-Compatible Regular Expressions.  <em><?php echo $app_name; ?> will not work here.</em></li>
 							<?php endif; ?>
@@ -368,7 +368,7 @@ div.chunk {
 
 			<h4>HTTP module</h4>
 			<p>Full-Text RSS can make use of PHP's HTTP extension or <code>curl_multi</code> to make parallel HTTP requests when processing feeds. If neither are available, it will make sequential requests using <code>file_get_contents</code>.</p>
-			<?php 
+			<?php
 			$http_type = 'file_get_contents';
 			if (extension_loaded('http') && class_exists('http\Client\Request')) {
 				$http_type = 'HTTP extension';
@@ -377,7 +377,7 @@ div.chunk {
 			}
 			?>
 			<p class="highlight"><strong><?php echo $http_type; ?></strong> will be used on this server.</p>
-			
+
 			<h4>Alternative PHP Cache (APC/APCu)</h4>
 			<p>Full-Text RSS can make use of APC's memory cache to store site config files (when requested for the first time). This is not required, but if available it may improve performance slightly by reducing disk access.</p>
 			<?php
@@ -387,7 +387,7 @@ div.chunk {
 				echo '<p class="highlight">APC is not available on this server.</p>';
 			}
 			?>
-			
+
 			<h4>HTML parser</h4>
 			<p><?php echo $app_name; ?> uses the fast libxml parser (the default PHP parser) but it will automatically make use of Gumbo (a fast HTML5 parser) if the <a href="https://github.com/layershifter/gumbo-php">Gumbo PHP</a> extension is installed. Alternatively, HTML5-PHP (an HTML5 parser written in PHP) can be used by passing &amp;parser=html5 as a parameter. The latter might produce better results than libxml for some sites, but is a little slower.</p>
 			<?php
@@ -417,9 +417,9 @@ div.chunk {
 			} else {
 				echo '<p class="highlight"><strong>ZipArchive is available</strong> on this server.</p>';
 			}
-			?>			
+			?>
 		</div>
-		
+
 		<div class="chunk">
 			<p class="footnote">This compatibility test has been borrowed (and slightly adapted) from the one supplied by <a href="http://simplepie.org/">SimplePie.org</a>. We have kept most of their checks intact as we use SimplePie in our application.</a></p>
 			<p class="footnote">Date: <?php echo date('Y-m-d'); ?></p>
