@@ -30,7 +30,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 error_reporting(E_ALL ^ E_NOTICE);
 libxml_use_internal_errors(true);
-libxml_disable_entity_loader(true);
+if (PHP_VERSION_ID < 80000) {
+	libxml_disable_entity_loader(true);
+}
 ini_set("display_errors", 1);
 @set_time_limit(120);
 
