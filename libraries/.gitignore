@@ -1,3 +1,10 @@
+masterminds/html5/.*
+masterminds/html5/bin/
+masterminds/html5/example.php
+masterminds/html5/phpunit.xml.dist
+masterminds/html5/sami.php
+masterminds/html5/tests/
+masterminds/html5/UPGRADING.md
 simplepie/simplepie/.*
 simplepie/simplepie/autoloader.php
 simplepie/simplepie/build/

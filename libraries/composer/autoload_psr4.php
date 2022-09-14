@@ -7,4 +7,5 @@ $baseDir = $vendorDir;
 
 return array(
     'SimplePie\\' => array($vendorDir . '/simplepie/simplepie/src'),
+    'Masterminds\\' => array($vendorDir . '/masterminds/html5/src'),
 );

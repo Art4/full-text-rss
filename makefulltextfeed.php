@@ -70,8 +70,6 @@ function autoload($class_name) {
 		'Zend_Cache' => 'Zend/Cache.php',
 		// Language detect
 		'Text_LanguageDetect' => 'language-detect/LanguageDetect.php',
-		// HTML5 PHP (can't be used unless PHP version is >= 5.3)
-		'Masterminds\HTML5' => 'html5php/HTML5.php',
 		// htmLawed - used if XSS filter is enabled (xss_filter)
 		'htmLawed' => 'htmLawed/htmLawed.php',
 		// Disable SimplePie sanitization
@@ -86,7 +84,6 @@ function autoload($class_name) {
 	}
 }
 spl_autoload_register('autoload');
-require dirname(__FILE__).'/libraries/html5php/autoloader.php';
 
 ////////////////////////////////
 // Load config file
