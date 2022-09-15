@@ -1,6 +1,11 @@
 Full-Text RSS
 =============
 
+Notice
+------
+
+This fork is based on Full-Text RSS 3.8.2 and provides PHP 8.1 support. For this purpose some libraries were updated or replaced. The PHP version must be PHP 7.3 or higher.
+
 [Full-Text RSS](https://fivefilters.org/content-only/) from [FiveFilters.org](https://fivefilters.org) is used by software developers and news enthusiasts to extract article content from news sites and blogs, and to convert RSS feeds that contain only extracts of stories to full-text feeds.
 
 This is the public version of Full-Text RSS available to download for free from <https://bitbucket.org/fivefilters>.
@@ -59,7 +64,7 @@ If you're developing an application which requires content extraction, you can c
 
 	// What do we have?
 	// var_dump($json);
-	
+
 	// Items?
 	// var_dump($json->rss->channel->item);
 

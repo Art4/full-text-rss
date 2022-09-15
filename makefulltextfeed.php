@@ -1510,7 +1510,7 @@ function get_single_page($item, $html, $url) {
 			'OriginalURL' => $url,
 		]));
 		$readability->parse($html);
-		$xpath = new DOMXPath($readability->dom);
+		$xpath = new DOMXPath($readability->getDOMDocument());
 		// Loop through single_page_link xpath expressions
 		$single_page_url = null;
 		foreach ($splink as $pattern) {
