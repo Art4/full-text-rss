@@ -35,7 +35,7 @@ class RollingCurlRequest {
         $this->headers = $headers;
         $this->options = $options;
     }
-	
+
     /**
      * @param string $url
      * @return void
@@ -165,10 +165,11 @@ class RollingCurl implements Countable {
      *
      * @return int
      */
+    #[\ReturnTypeWillChange]
     public function count() {
         return count($this->requests);
-    }	
-	
+    }
+
     /**
      * Add a request to the request queue
      *
@@ -294,7 +295,7 @@ class RollingCurl implements Countable {
             curl_multi_add_handle($master, $ch);
 
             // Add to our request Maps
-            $key = (string) $ch;
+            $key = 'Resource id #' . spl_object_id($ch);
             $this->requestMap[$key] = $i;
         }
 
@@ -312,7 +313,7 @@ class RollingCurl implements Countable {
                 // send the return values to the callback function.
                 $callback = $this->callback;
                 if (is_callable($callback)) {
-                    $key = (string) $done['handle'];
+                    $key = 'Resource id #' . spl_object_id($done['handle']);
                     $request = $this->requests[$this->requestMap[$key]];
                     unset($this->requestMap[$key]);
                     call_user_func($callback, $output, $info, $request);
@@ -326,7 +327,7 @@ class RollingCurl implements Countable {
                     curl_multi_add_handle($master, $ch);
 
                     // Add to our request Maps
-                    $key = (string) $ch;
+                    $key = 'Resource id #' . spl_object_id($ch);
                     $this->requestMap[$key] = $i;
                     $i++;
                 }
@@ -384,7 +385,7 @@ class RollingCurl implements Countable {
         }
 		// return response headers
 		$options[CURLOPT_HEADER] = 1;
-		
+
 		// send HEAD request?
 		if ($request->method == 'HEAD') {
 			$options[CURLOPT_NOBODY] = 1;
