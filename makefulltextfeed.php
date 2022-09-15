@@ -28,6 +28,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // Request this file passing it a web page or feed URL in the querystring: makefulltextfeed.php?url=example.org/article
 // For more request parameters, see http://help.fivefilters.org/customer/portal/articles/226660-usage
 
+use fivefilters\Readability\Configuration;
+use fivefilters\Readability\Readability;
+
 error_reporting(E_ALL ^ E_NOTICE);
 libxml_use_internal_errors(true);
 if (PHP_VERSION_ID < 80000) {
@@ -57,10 +60,9 @@ function autoload($class_name) {
 		// Include FeedCreator for RSS/Atom creation
 		'FeedWriter' => 'feedwriter/FeedWriter.php',
 		'FeedItem' => 'feedwriter/FeedItem.php',
-		// Include ContentExtractor and Readability for identifying and extracting content from URLs
+		// Include ContentExtractor for identifying and extracting content from URLs
 		'ContentExtractor' => 'content-extractor/ContentExtractor.php',
 		'SiteConfig' => 'content-extractor/SiteConfig.php',
-		'Readability' => 'readability/Readability.php',
 		// Include Humble HTTP Agent to allow parallel requests and response caching
 		'HumbleHttpAgent' => 'humble-http-agent/HumbleHttpAgent.php',
 		'SimplePie_HumbleHttpAgent' => 'humble-http-agent/SimplePie_HumbleHttpAgent.php',
@@ -805,7 +807,7 @@ foreach ($items as $key => $item) {
 					continue; // skip this feed item entry
 				}
 			}
-			$base_url = get_base_url($readability->dom, $effective_url);
+			$base_url = get_base_url($readability->getDOMDocument(), $effective_url);
 			if (!$base_url) $base_url = $effective_url;
 			$content_block = ($extract_result) ? $extractor->getContent() : null;
 			$extracted_title = ($extract_result) ? $extractor->getTitle() : '';
@@ -889,7 +891,7 @@ foreach ($items as $key => $item) {
 				$html .= $item->get_description();
 			}
 		} else {
-			$readability->clean($content_block, 'select');
+			// $readability->clean($content_block, 'select');
 			if ($options->rewrite_relative_urls) {
 				// we've got $base_url already above
 				//$base_url = get_base_url($readability->dom);
@@ -1504,7 +1506,10 @@ function get_single_page($item, $html, $url) {
 	}
 	if (isset($splink)) {
 		// Build DOM tree from HTML
-		$readability = new Readability($html, $url);
+		$readability = new Readability(new Configuration([
+			'OriginalURL' => $url,
+		]));
+		$readability->parse($html);
 		$xpath = new DOMXPath($readability->dom);
 		// Loop through single_page_link xpath expressions
 		$single_page_url = null;

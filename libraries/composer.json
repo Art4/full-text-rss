@@ -5,11 +5,15 @@
     "homepage": "https://fivefilters.org/",
     "license": "AGPL-3.0",
     "require": {
-        "php": ">=7.2.0",
+        "php": ">=7.3.0",
+        "fivefilters/readability.php": "dev-master",
         "masterminds/html5": "^2.7.6",
         "simplepie/simplepie": "^1.6.0"
     },
     "config": {
+        "platform": {
+            "php": "7.3.0"
+        },
         "sort-packages": true,
         "vendor-dir": "./"
     },
