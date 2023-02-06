@@ -2,17 +2,17 @@
     "packages": [
         {
             "name": "fivefilters/readability.php",
-            "version": "dev-master",
-            "version_normalized": "dev-master",
+            "version": "v3.1.2",
+            "version_normalized": "3.1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fivefilters/readability.php.git",
-                "reference": "a2c0b975be911dfcb7138483b444e3e93803afbf"
+                "reference": "973fbb0f9c2335153c796dc5dce60f60e3adc347"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fivefilters/readability.php/zipball/a2c0b975be911dfcb7138483b444e3e93803afbf",
-                "reference": "a2c0b975be911dfcb7138483b444e3e93803afbf",
+                "url": "https://api.github.com/repos/fivefilters/readability.php/zipball/973fbb0f9c2335153c796dc5dce60f60e3adc347",
+                "reference": "973fbb0f9c2335153c796dc5dce60f60e3adc347",
                 "shasum": ""
             },
             "require": {
@@ -31,8 +31,7 @@
             "suggest": {
                 "monolog/monolog": "Allow logging debug information"
             },
-            "time": "2023-01-14T14:55:56+00:00",
-            "default-branch": true,
+            "time": "2023-01-14T14:42:35+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -65,7 +64,7 @@
             ],
             "support": {
                 "issues": "https://github.com/fivefilters/readability.php/issues",
-                "source": "https://github.com/fivefilters/readability.php/tree/master"
+                "source": "https://github.com/fivefilters/readability.php/tree/v3.1.2"
             },
             "install-path": "../fivefilters/readability.php"
         },

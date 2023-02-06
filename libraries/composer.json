@@ -6,7 +6,7 @@
     "license": "AGPL-3.0",
     "require": {
         "php": "^7.4.0 || ^8.0",
-        "fivefilters/readability.php": "dev-master",
+        "fivefilters/readability.php": "^3.0",
         "masterminds/html5": "^2.7.6",
         "simplepie/simplepie": "^1.6.0"
     },

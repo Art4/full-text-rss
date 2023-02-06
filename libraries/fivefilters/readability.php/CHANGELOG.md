@@ -1,10 +1,6 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## [v3.1.2](https://github.com/fivefilters/readability.php/releases/tag/v3.1.2)
-- Fixes issue "Warning: Undefined array key 2" reported by @castroCrea
-- Fixes issue "Notice: Trying to get property '' of non-object" reported by @thedf
-
 ## [v3.1.1](https://github.com/fivefilters/readability.php/releases/tag/v3.1.1)
 - Exclude tests folder when using composer
 
