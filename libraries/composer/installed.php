@@ -3,7 +3,7 @@
         'name' => 'fivefilters.org/full-text-rss',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '1fd689b4b4aa5a540649492daf5ceb825767be92',
+        'reference' => '21710f18e63c3b256e5cc6cfe853bcb8feab93f3',
         'type' => 'project',
         'install_path' => __DIR__ . '/../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'fivefilters.org/full-text-rss' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '1fd689b4b4aa5a540649492daf5ceb825767be92',
+            'reference' => '21710f18e63c3b256e5cc6cfe853bcb8feab93f3',
             'type' => 'project',
             'install_path' => __DIR__ . '/../',
             'aliases' => array(),
