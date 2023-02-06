@@ -21,7 +21,7 @@ $app_name = 'Full-Text RSS 3.8';
 // Full-Text RSS is not yet compatible with HHVM, that's why we check for it with HHVM_VERSION.
 //$php_ok = (function_exists('version_compare') && version_compare(phpversion(), '5.2.0', '>=') && !defined('HHVM_VERSION'));
 // HHVM works okay, but no Tidy and autoupdate of site config files not working (tested 3.7.1)
-$php_ok = (function_exists('version_compare') && version_compare(phpversion(), '7.3.0', '>='));
+$php_ok = (function_exists('version_compare') && version_compare(phpversion(), '7.4.0', '>='));
 $pcre_ok = extension_loaded('pcre');
 $zlib_ok = extension_loaded('zlib');
 $mbstring_ok = extension_loaded('mbstring');
@@ -206,7 +206,7 @@ div.chunk {
 				<tbody>
 					<tr class="<?php echo ($php_ok) ? 'enabled' : 'disabled'; ?>">
 						<td>PHP</td>
-						<td>7.3 or higher</td>
+						<td>7.4 or higher</td>
 						<td><?php echo phpversion(); ?></td>
 					</tr>
 					<tr class="<?php echo ($xml_ok) ? 'enabled, and sane' : 'disabled, or broken'; ?>">

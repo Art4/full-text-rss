@@ -204,7 +204,7 @@ class Readability
              * finding the -right- content.
              */
 
-            $length = mb_strlen(preg_replace(NodeUtility::$regexps['onlyWhitespace'], '', $result->textContent));
+            $length = !$result ? 0 : mb_strlen(preg_replace(NodeUtility::$regexps['onlyWhitespace'], '', $result->textContent));
 
             $this->logger->info(sprintf('[Parsing] Article parsed. Amount of words: %s. Current threshold is: %s', $length, $this->configuration->getCharThreshold()));
 
@@ -407,10 +407,10 @@ class Readability
                     if (isset($parsed['author']['name']) && is_string($parsed['author']['name'])) {
                         $metadata['byline'] = trim($parsed['author']['name']);
                     } elseif (
-                        is_array($parsed['author']) &&
-                        isset($parsed['author'][0]) &&
-                        is_array($parsed['author'][0]) &&
-                        isset($parsed['author'][0]['name']) &&
+                        is_array($parsed['author']) && 
+                        isset($parsed['author'][0]) && 
+                        is_array($parsed['author'][0]) && 
+                        isset($parsed['author'][0]['name']) && 
                         is_string($parsed['author'][0]['name'])
                     ) {
                         $metadata['byline'] = array_filter($parsed['author'], function ($author) {
@@ -436,7 +436,7 @@ class Readability
                 return $metadata;
             } catch (\Exception $err) {
                 // The try-catch blocks are from the JS version. Not sure if there's anything
-                // here in the PHP version that would trigger an error or exception, so perhaps we can
+                // here in the PHP version that would trigger an error or exception, so perhaps we can 
                 // remove the try-catch blocks here (or at least translate errors to exceptions for this bit)
                 $this->logger->debug('[JSON-LD] Error parsing: ' . $err->getMessage());
             }
@@ -463,7 +463,7 @@ class Readability
             /* @var DOMNode $meta */
             $elementName = $meta->getAttribute('name');
             $elementProperty = $meta->getAttribute('property');
-            $content = $meta->getAttribute('content');
+            $content = $meta->getAttribute('content'); 
             $matches = null;
             $name = null;
 
@@ -645,7 +645,7 @@ class Readability
     private function simplifyNestedElements(DOMDocument $article)
     {
         $node = $article;
-
+    
         while ($node) {
             if ($node->parentNode && in_array($node->nodeName, ['div', 'section']) && !($node->hasAttribute('id') && strpos($node->getAttribute('id'), 'readability') === 0)) {
                 if ($node->isElementWithoutContent()) {
@@ -661,7 +661,7 @@ class Readability
                     continue;
                 }
             }
-
+        
             $node = NodeUtility::getNextNode($node);
         }
     }
@@ -1078,7 +1078,7 @@ class Readability
         }, $str);
         $str = preg_replace_callback('/&#(?:x([0-9a-z]{1,4})|([0-9]{1,4}));/i', function ($matches) {
             $hex = $matches[1];
-            $numStr = $matches[2];
+            $numStr = $matches[2] ?? '0';
             if ($hex !== '') {
                 $num = intval($hex, 16);
             } else {
@@ -1503,7 +1503,7 @@ class Readability
         $siblingScoreThreshold = max(10, $topCandidate->contentScore * 0.2);
         // Keep potential top candidate's parent node to try to get text direction of it later.
         $parentOfTopCandidate = $topCandidate->parentNode;
-        $siblings = $parentOfTopCandidate->childNodes;
+        $siblings = $parentOfTopCandidate->childNodes ?? null;
 
         $hasContent = false;
 
@@ -1511,7 +1511,7 @@ class Readability
 
         /* @var DOMElement $sibling */
         // Can't foreach here because down there we might change the tag name and that causes the foreach to skip items
-        for ($i = 0; $i < $siblings->length; $i++) {
+        for ($i = 0; $i < $siblings->length ?? 0; $i++) {
             $sibling = $siblings[$i];
             $append = false;
 
@@ -1565,9 +1565,8 @@ class Readability
             }
         }
 
-        $articleContent = $this->prepArticle($articleContent);
-
         if ($hasContent) {
+            $articleContent = $this->prepArticle($articleContent);
             // Find out text direction from ancestors of final top candidate.
             $ancestors = array_merge([$parentOfTopCandidate, $topCandidate], $parentOfTopCandidate->getNodeAncestors());
             foreach ($ancestors as $ancestor) {
@@ -1617,9 +1616,9 @@ class Readability
 
         // Clean out elements have "share" in their id/class combinations from final top candidates,
         // which means we don't remove the top candidates even they have "share".
-
+        
         $shareElementThreshold = $this->configuration->getCharThreshold();
-
+        
         foreach ($article->childNodes as $child) {
             $this->_cleanMatchedNodes($child, function ($node, $matchString) use ($shareElementThreshold) {
                 return (preg_match(NodeUtility::$regexps['shareElements'], $matchString) && mb_strlen($node->textContent) < $shareElementThreshold);
@@ -2216,31 +2215,31 @@ class Readability
             $medias = $this->_getAllNodesWithTag($article, [
                 'img', 'picture', 'figure', 'video', 'audio', 'source'
             ]);
-
+        
             array_walk($medias, function ($media) {
                 $src = $media->getAttribute('src');
                 $poster = $media->getAttribute('poster');
                 $srcset = $media->getAttribute('srcset');
-
+        
                 if ($src) {
                     $this->logger->debug(sprintf('[PostProcess] Converting image URL to absolute URI: \'%s\'', substr($src, 0, 128)));
 
                     $media->setAttribute('src', $this->toAbsoluteURI($src));
                 }
-
+        
                 if ($poster) {
                     $this->logger->debug(sprintf('[PostProcess] Converting image URL to absolute URI: \'%s\'', substr($poster, 0, 128)));
 
                     $media->setAttribute('poster', $this->toAbsoluteURI($poster));
                 }
-
+        
                 if ($srcset) {
                     $newSrcset = preg_replace_callback(NodeUtility::$regexps['srcsetUrl'], function ($matches) {
                         $this->logger->debug(sprintf('[PostProcess] Converting image URL to absolute URI: \'%s\'', substr($matches[1], 0, 128)));
 
                         return $this->toAbsoluteURI($matches[1]) . $matches[2] . $matches[3];
                     }, $srcset);
-
+            
                     $media->setAttribute('srcset', $newSrcset);
                 }
             });

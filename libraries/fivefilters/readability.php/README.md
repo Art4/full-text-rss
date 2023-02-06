@@ -1,15 +1,5 @@
 # Readability.php
 
-## News (August 2021)
-
-Andres Rey, the [original developer](https://github.com/andreskrey/readability.php) of Readability.php has kindly let us take over maintenance and development of the project.
-
-Please bear with us while we catch up with [Readability.js](https://github.com/mozilla/readability) changes. There'll be a new release (3.0.0) when we're ready.
-
-For the changes we've made so far in this repository, please see our [blog post](https://www.fivefilters.org/2021/readability/).
-
-## About
-
 [![Latest Stable Version](https://poser.pugx.org/fivefilters/readability.php/v/stable)](https://packagist.org/packages/fivefilters/readability.php) [![Tests](https://github.com/fivefilters/readability.php/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/fivefilters/readability.php/actions/workflows/main.yml)
 
 PHP port of *Mozilla's* **[Readability.js](https://github.com/mozilla/readability)**. Parses html text (usually news and other articles) and returns **title**, **author**, **main image** and **text content** without nav bars, ads, footers, or anything that isn't the main body of the text. Analyzes each node, gives them a score, and determines what's relevant and what can be discarded.
@@ -30,7 +20,7 @@ Version 2.1.0 - Up to date with Readability.js up to [19 Nov 2018](https://githu
 
 ## Requirements
 
-PHP 7.3+, ext-dom, ext-xml, and ext-mbstring. To install these dependencies (in the rare case your system does not have them already), you could try something like this in *nix like environments:
+PHP 7.4+, ext-dom, ext-xml, and ext-mbstring. To install these dependencies (in the rare case your system does not have them already), you could try something like this in *nix like environments:
 
 `$ sudo apt-get install php7.4-xml php7.4-mbstring`
 
@@ -42,7 +32,9 @@ First you have to require the library using composer:
 
 Then, create a Readability class and pass a Configuration class, feed the `parse()` function with your HTML and echo the variable:
 
-```php 
+```php
+<?php
+require __DIR__ . '/vendor/autoload.php';
 use fivefilters\Readability\Readability;
 use fivefilters\Readability\Configuration;
 use fivefilters\Readability\ParseException;
@@ -176,7 +168,7 @@ Self closing tags like `<br />` get automatically expanded to `<br></br`. No way
 
 ## Dependencies
 
-Readability.php uses 
+Readability.php uses
 
  * [HTML5-PHP](https://github.com/Masterminds/html5-php) to parse and serialise HTML.
  * [PSR Log](https://github.com/php-fig/log) interface to define the allowed type of loggers. 
@@ -201,7 +193,9 @@ reader mode uses both of these techniques itself. Sanitizing unsafe content out 
 
 ## Testing
 
-Any version of PHP from 7.3 and above installed locally should be enough to develop new features and add new test cases. If you want to be 100% sure that your change doesn't create any issues with other versions of PHP, you can use the provided Docker containers to test currently in 7.3, 7.4, and 8.0.
+Any version of PHP from 7.4 and above installed locally should be enough to develop new features and add new test cases. If you want to be 100% sure that your change doesn't create any issues with other versions of PHP, you can use the provided Docker containers to test currently in 7.4, 8.0, 8.1.
+
+If you use composer to download this this package, make sure you pass the `--prefer-source` flag, otherwise the `test/` folder won't be downloaded.
 
 You'll need Docker and Docker Compose for this. To run all the tests in the three PHP versions above, just type the following command:
 
@@ -209,11 +203,11 @@ You'll need Docker and Docker Compose for this. To run all the tests in the thre
 make test-all
 ```
 
-This will start all the containers and run all the tests on every supported version of PHP. If you want to test against a specific version, you can use `make test-7.3`, `make test-7.4`, or `make test-8`.
+This will start all the containers and run all the tests on every supported version of PHP. If you want to test against a specific version, you can use `make test-7.4`, `make test-8.0`, or `make test-8.1`.
 
 ### Different versions of libxml
 
-If you want to test against supported versions of PHP *AND* multiple versions of libxml, run `test-all-versions`. This will test against PHP versions 7.3 to 8 and libxml versions 2.9.4, 2.9.5, 2.9.10, and 2.9.12. Normally you won't need to do this unless you think you've found a bug on an specific version of libxml.
+If you want to test against supported versions of PHP *AND* multiple versions of libxml, run `test-all-versions`. This will test against PHP versions 7.4 to 8.1 and libxml versions 2.9.10, 2.9.13 and 2.9.14. Normally you won't need to do this unless you think you've found a bug on an specific version of libxml.
 
 ### Updating the expected tests
 
@@ -230,7 +224,7 @@ Next, create a folder in tests/ called /changed, then run the following command 
 The two environment variables (`output-changes=1` and `output-diff=1`) will result in new output for any failing test (along with a diff of changes) being written to the changed/ folder.
 
 If you're happy the changes are okay, set `output-diff=0` and the diff files will no longer be written, making it easier to copy the new expected output files over to their corresponding locations in test-pages\.
- 
+
 ## License
 
 Based on Arc90's readability.js (1.7.1) script available at: http://code.google.com/p/arc90labs-readability
