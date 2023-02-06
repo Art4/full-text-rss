@@ -30,6 +30,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 use fivefilters\Readability\Configuration;
 use fivefilters\Readability\Readability;
+use SimplePie\File;
+use SimplePie\IRI;
+use SimplePie\Misc;
+use SimplePie\Sanitize;
+use SimplePie\SimplePie;
 
 error_reporting(E_ALL ^ E_NOTICE);
 libxml_use_internal_errors(true);
@@ -578,13 +583,13 @@ if ($accept !== 'html') {
 	$feed = new SimplePie();
 	// some feeds use the text/html content type - force_feed tells SimplePie to process anyway
 	$feed->force_feed(true);
-	$feed->set_file_class('SimplePie_HumbleHttpAgent');
-	$feed->set_sanitize_class('DisableSimplePieSanitize');
+	$feed->get_registry()->register(File::class, SimplePie_HumbleHttpAgent::class);
+	$feed->get_registry()->register(Sanitize::class, DisableSimplePieSanitize::class);
 	// need to assign this manually it seems
-	$feed->sanitize = new DisableSimplePieSanitize();
-	//$feed->set_feed_url($url); // colons appearing in the URL's path get encoded
-	$feed->feed_url = $url;
-	$feed->set_autodiscovery_level(SIMPLEPIE_LOCATOR_NONE);
+	// $feed->sanitize = new DisableSimplePieSanitize();
+	$feed->set_feed_url($url); // colons appearing in the URL's path get encoded
+	// $feed->feed_url = $url;
+	$feed->set_autodiscovery_level(SimplePie::LOCATOR_NONE);
 	$feed->set_timeout(20);
 	$feed->enable_cache(false);
 	$feed->set_stupidly_fast(true);
@@ -592,7 +597,7 @@ if ($accept !== 'html') {
 	$feed->set_url_replacements(array());
 	// initialise the feed
 	// the @ suppresses notices which on some servers causes a 500 internal server error
-	$result = @$feed->init();
+	$result = $feed->init();
 	//$feed->handle_content_type();
 	//$feed->get_title();
 	if ($result && (!is_array($feed->data) || count($feed->data) == 0)) {
@@ -654,7 +659,7 @@ if (_FF_FTR_MODE === 'simple') $output->enableSimpleJson();
 $output->setTitle(strip_tags($feed->get_title()));
 $output->setDescription(strip_tags($feed->get_description()));
 $output->setXsl('css/feed.xsl'); // Chrome uses this, most browsers ignore it
-$ttl = $feed->get_channel_tags(SIMPLEPIE_NAMESPACE_RSS_20, 'ttl');
+$ttl = $feed->get_channel_tags(SimplePie::NAMESPACE_RSS_20, 'ttl');
 if ($ttl !== null) {
 	$ttl = (int)$ttl[0]['data'];
 	$output->setTtl($ttl);
@@ -1415,7 +1420,7 @@ function convert_to_utf8($html, $header=null) {
 			debug('Character encoding: '.$encoding);
 			if ($encoding !== 'utf-8') {
 				debug('Converting to UTF-8');
-				$html = SimplePie_Misc::change_encoding($html, $encoding, 'utf-8');
+				$html = Misc::change_encoding($html, $encoding, 'utf-8');
 			}
 		}
 	}
@@ -1423,7 +1428,7 @@ function convert_to_utf8($html, $header=null) {
 }
 
 function make_absolute($base, $elem) {
-	$base = new SimplePie_IRI($base);
+	$base = new IRI($base);
 	// remove '//' in URL path (used to prevent URLs from resolving properly)
 	// TODO: check if this is still the case
 	if (isset($base->path)) $base->path = preg_replace('!//+!', '/', $base->path);
@@ -1444,21 +1449,21 @@ function make_absolute_attr($base, $e, $attr) {
 		$url = trim(str_replace('%20', ' ', $e->getAttribute($attr)));
 		$url = str_replace(' ', '%20', $url);
 		if (!preg_match('!https?://!i', $url)) {
-			if ($absolute = SimplePie_IRI::absolutize($base, $url)) {
+			if ($absolute = IRI::absolutize($base, $url)) {
 				$e->setAttribute($attr, $absolute->get_uri());
 			}
 		}
 	}
 }
 function make_absolute_str($base, $url) {
-	$base = new SimplePie_IRI($base);
+	$base = new IRI($base);
 	// remove '//' in URL path (causes URLs not to resolve properly)
 	if (isset($base->path)) $base->path = preg_replace('!//+!', '/', $base->path);
 	if (preg_match('!^https?://!i', $url)) {
 		// already absolute
 		return $url;
 	} else {
-		if ($absolute = SimplePie_IRI::absolutize($base, $url)) {
+		if ($absolute = IRI::absolutize($base, $url)) {
 			return $absolute->get_uri();
 		}
 		return false;

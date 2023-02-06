@@ -5,7 +5,7 @@
  * A PHP-Based RSS and Atom Feed Framework.
  * Takes the hard work out of managing a complete RSS/Atom solution.
  *
- * Copyright (c) 2004-2016, Ryan Parman, Sam Sneddon, Ryan McCue, and contributors
+ * Copyright (c) 2004-2022, Ryan Parman, Sam Sneddon, Ryan McCue, and contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
@@ -33,7 +33,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package SimplePie
- * @copyright 2004-2016 Ryan Parman, Sam Sneddon, Ryan McCue
+ * @copyright 2004-2022 Ryan Parman, Sam Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Sam Sneddon
  * @author Ryan McCue
@@ -41,110 +41,49 @@
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
  */
 
+namespace SimplePie\Cache;
+
 /**
- * Handles `<media:restriction>` as defined in Media RSS
- *
- * Used by {@see SimplePie_Enclosure::get_restriction()} and {@see SimplePie_Enclosure::get_restrictions()}
- *
- * This class can be overloaded with {@see SimplePie::set_restriction_class()}
+ * Creating a cache filename with callables
  *
  * @package SimplePie
- * @subpackage API
+ * @subpackage Caching
  */
-class SimplePie_Restriction
+final class CallableNameFilter implements NameFilter
 {
-	/**
-	 * Relationship ('allow'/'deny')
-	 *
-	 * @var string
-	 * @see get_relationship()
-	 */
-	var $relationship;
+    /**
+     * @var callable
+     */
+    private $callable;
 
-	/**
-	 * Type of restriction
-	 *
-	 * @var string
-	 * @see get_type()
-	 */
-	var $type;
+    public function __construct(callable $callable)
+    {
+        $this->callable = $callable;
+    }
 
-	/**
-	 * Restricted values
-	 *
-	 * @var string
-	 * @see get_value()
-	 */
-	var $value;
-
-	/**
-	 * Constructor, used to input the data
-	 *
-	 * For documentation on all the parameters, see the corresponding
-	 * properties and their accessors
-	 */
-	public function __construct($relationship = null, $type = null, $value = null)
-	{
-		$this->relationship = $relationship;
-		$this->type = $type;
-		$this->value = $value;
-	}
-
-	/**
-	 * String-ified version
-	 *
-	 * @return string
-	 */
-	public function __toString()
-	{
-		// There is no $this->data here
-		return md5(serialize($this));
-	}
-
-	/**
-	 * Get the relationship
-	 *
-	 * @return string|null Either 'allow' or 'deny'
-	 */
-	public function get_relationship()
-	{
-		if ($this->relationship !== null)
-		{
-			return $this->relationship;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Get the type
-	 *
-	 * @return string|null
-	 */
-	public function get_type()
-	{
-		if ($this->type !== null)
-		{
-			return $this->type;
-		}
-
-		return null;
-	}
-
-	/**
-	 * Get the list of restricted things
-	 *
-	 * @return string|null
-	 */
-	public function get_value()
-	{
-		if ($this->value !== null)
-		{
-			return $this->value;
-		}
-
-		return null;
-	}
+    /**
+     * Method to create cache filename with.
+     *
+     * The returning name MUST follow the rules for keys in PSR-16.
+     *
+     * @link https://www.php-fig.org/psr/psr-16/
+     *
+     * The returning name MUST be a string of at least one character
+     * that uniquely identifies a cached item, MUST only contain the
+     * characters A-Z, a-z, 0-9, _, and . in any order in UTF-8 encoding
+     * and MUST not longer then 64 characters. The following characters
+     * are reserved for future extensions and MUST NOT be used: {}()/\@:
+     *
+     * A provided implementing library MAY support additional characters
+     * and encodings or longer lengths, but MUST support at least that
+     * minimum.
+     *
+     * @param string $name The name for the cache will be most likly an url with query string
+     *
+     * @return string the new cache name
+     */
+    public function filter(string $name): string
+    {
+        return call_user_func($this->callable, $name);
+    }
 }
-
-class_alias('SimplePie_Restriction', 'SimplePie\Restriction', false);

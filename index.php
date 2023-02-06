@@ -603,7 +603,7 @@ if (!defined('_FF_FTR_INDEX')) {
 
 	<h3>System Requirements</h3>
 
-	<p>PHP 7.3 or above is required. A simple shared web hosting account should work fine, but we recommend a <a href="http://help.fivefilters.org/customer/portal/articles/1143210-hosting">VPS with 1GB RAM</a>.
+	<p>PHP 7.4 or above is required. A simple shared web hosting account should work fine, but we recommend a <a href="http://help.fivefilters.org/customer/portal/articles/1143210-hosting">VPS with 1GB RAM</a>.
 	The code has been tested on Windows and Linux using the Apache web server. If you're a Windows user, you can try it on your own machine using <a href="http://www.uniformserver.com/">Uniform Server</a>. It has also been reported as working under IIS, but we have not tested this ourselves.</p>
 
 	<h3 id="download">Download</h3>

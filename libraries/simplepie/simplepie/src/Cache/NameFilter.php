@@ -5,7 +5,7 @@
  * A PHP-Based RSS and Atom Feed Framework.
  * Takes the hard work out of managing a complete RSS/Atom solution.
  *
- * Copyright (c) 2004-2016, Ryan Parman, Sam Sneddon, Ryan McCue, and contributors
+ * Copyright (c) 2004-2022, Ryan Parman, Sam Sneddon, Ryan McCue, and contributors
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification, are
@@ -33,7 +33,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * @package SimplePie
- * @copyright 2004-2016 Ryan Parman, Sam Sneddon, Ryan McCue
+ * @copyright 2004-2022 Ryan Parman, Sam Sneddon, Ryan McCue
  * @author Ryan Parman
  * @author Sam Sneddon
  * @author Ryan McCue
@@ -41,75 +41,36 @@
  * @license http://www.opensource.org/licenses/bsd-license.php BSD License
  */
 
+namespace SimplePie\Cache;
+
 /**
- * Base for cache objects
- *
- * Classes to be used with {@see SimplePie_Cache::register()} are expected
- * to implement this interface.
+ * Interface for creating a cache filename
  *
  * @package SimplePie
  * @subpackage Caching
  */
-interface SimplePie_Cache_Base
+interface NameFilter
 {
-	/**
-	 * Feed cache type
-	 *
-	 * @var string
-	 */
-	const TYPE_FEED = 'spc';
-
-	/**
-	 * Image cache type
-	 *
-	 * @var string
-	 */
-	const TYPE_IMAGE = 'spi';
-
-	/**
-	 * Create a new cache object
-	 *
-	 * @param string $location Location string (from SimplePie::$cache_location)
-	 * @param string $name Unique ID for the cache
-	 * @param string $type Either TYPE_FEED for SimplePie data, or TYPE_IMAGE for image data
-	 */
-	public function __construct($location, $name, $type);
-
-	/**
-	 * Save data to the cache
-	 *
-	 * @param array|SimplePie $data Data to store in the cache. If passed a SimplePie object, only cache the $data property
-	 * @return bool Successfulness
-	 */
-	public function save($data);
-
-	/**
-	 * Retrieve the data saved to the cache
-	 *
-	 * @return array Data for SimplePie::$data
-	 */
-	public function load();
-
-	/**
-	 * Retrieve the last modified time for the cache
-	 *
-	 * @return int Timestamp
-	 */
-	public function mtime();
-
-	/**
-	 * Set the last modified time to the current time
-	 *
-	 * @return bool Success status
-	 */
-	public function touch();
-
-	/**
-	 * Remove the cache
-	 *
-	 * @return bool Success status
-	 */
-	public function unlink();
+    /**
+     * Method to create cache filename with.
+     *
+     * The returning name MUST follow the rules for keys in PSR-16.
+     *
+     * @link https://www.php-fig.org/psr/psr-16/
+     *
+     * The returning name MUST be a string of at least one character
+     * that uniquely identifies a cached item, MUST only contain the
+     * characters A-Z, a-z, 0-9, _, and . in any order in UTF-8 encoding
+     * and MUST not longer then 64 characters. The following characters
+     * are reserved for future extensions and MUST NOT be used: {}()/\@:
+     *
+     * A provided implementing library MAY support additional characters
+     * and encodings or longer lengths, but MUST support at least that
+     * minimum.
+     *
+     * @param string $name The name for the cache will be most likly an url with query string
+     *
+     * @return string the new cache name
+     */
+    public function filter(string $name): string;
 }
-
-class_alias('SimplePie_Cache_Base', 'SimplePie\Cache\Base', false);

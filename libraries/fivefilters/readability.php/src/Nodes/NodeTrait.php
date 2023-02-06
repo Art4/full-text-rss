@@ -167,8 +167,7 @@ trait NodeTrait
      *
      * @return string
      */
-    #[\ReturnTypeWillChange]
-    public function getAttribute($attributeName)
+    public function getAttribute($attributeName): string
     {
         if (!is_null($this->attributes)) {
             return parent::getAttribute($attributeName);
@@ -186,8 +185,7 @@ trait NodeTrait
      *
      * @see getAttribute
      */
-    #[\ReturnTypeWillChange]
-    public function hasAttribute($attributeName)
+    public function hasAttribute($attributeName): bool
     {
         if (!is_null($this->attributes)) {
             return parent::hasAttribute($attributeName);
@@ -203,7 +201,7 @@ trait NodeTrait
      *
      * @return array
      */
-    public function getNodeAncestors($maxLevel = 3)
+    public function getNodeAncestors($maxLevel = 3): array
     {
         $ancestors = [];
         $level = 0;
@@ -227,7 +225,7 @@ trait NodeTrait
      *
      * @return array
      */
-    public function getAllLinks()
+    public function getAllLinks(): array
     {
         return iterator_to_array($this->getElementsByTagName('a'));
     }
@@ -490,7 +488,7 @@ trait NodeTrait
      */
     public function isProbablyVisible()
     {
-        return !preg_match('/display:( )?none/i', $this->getAttribute('style')) &&
+        return !preg_match('/display:( )?none/i', $this->getAttribute('style')) && 
                 !$this->hasAttribute('hidden') &&
                 //check for "fallback-image" so that wikimedia math images are displayed
                 (!$this->hasAttribute('aria-hidden') || $this->getAttribute('aria-hidden') !== 'true' || ($this->hasAttribute('class') && strpos($this->getAttribute('class'), 'fallback-image') !== false));
