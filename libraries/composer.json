@@ -8,7 +8,7 @@
         "php": "^7.4.0 || ^8.0",
         "fivefilters/readability.php": "^3.0",
         "masterminds/html5": "^2.7.6",
-        "simplepie/simplepie": "^1.6.0"
+        "simplepie/simplepie": "^1.8.0"
     },
     "config": {
         "platform": {
@@ -16,11 +16,6 @@
         },
         "sort-packages": true,
         "vendor-dir": "./"
-    },
-    "autoload": {
-        "files": [
-            "simplepie/simplepie/library/SimplePie.php"
-        ]
     },
     "scripts": {
         "post-update-cmd": "git clean -d -f -X ."

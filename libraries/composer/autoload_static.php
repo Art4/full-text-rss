@@ -6,10 +6,6 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit0a58a3984fc6363c165b62a4e2d4dd87
 {
-    public static $files = array (
-        'e8b9612bd57a56c6db24fda32a44eac2' => __DIR__ . '/..' . '/simplepie/simplepie/library/SimplePie.php',
-    );
-
     public static $prefixLengthsPsr4 = array (
         'f' => 
         array (
