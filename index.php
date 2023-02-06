@@ -619,7 +619,7 @@ if (!defined('_FF_FTR_INDEX')) {
 		$site_config_version = file_get_contents($site_config_version_file);
 	}
 	?>
-	<p>Your version of Full-Text RSS: <strong><?php echo _FF_FTR_VERSION; ?></strong><br />
+	<p>Your version of Full-Text RSS: <strong><?php echo _FF_FTR_VERSION; ?></strong> with <a href="https://github.com/Art4/full-text-rss">modifications</a><br />
 	Your version of Site Patterns: <strong><?php echo (isset($site_config_version) ? $site_config_version : 'Unknown'); ?></strong>
 	</p>
 	<p>To see if you have the latest versions, <a href="http://fivefilters.org/content-only/latest_version.php?version=<?php echo urlencode(_FF_FTR_VERSION).'&site_config='.urlencode(@$site_config_version); ?>">check for updates</a>.</p>

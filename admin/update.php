@@ -68,8 +68,8 @@ if (!isset($_REQUEST['key']) || trim($_REQUEST['key']) == '') {
 	if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		header('Location: update.php');
 		exit;
-	}	
-	
+	}
+
 	$auto = true;
 	$no_auto_reasons = array();
 	if (!class_exists('ZipArchive')) {
@@ -84,7 +84,7 @@ if (!isset($_REQUEST['key']) || trim($_REQUEST['key']) == '') {
 		die('Could not determine current version of your site pattern files (site_config/standard/version.txt). Make sure you\'re using at least version 3.2 of Full-Text RSS.');
 	}
 	?>
-	<p>You have Full-Text RSS <strong><?php echo _FF_FTR_VERSION; ?></strong>
+	<p>You have Full-Text RSS <strong><?php echo _FF_FTR_VERSION; ?></strong> with <a href="https://github.com/Art4/full-text-rss">modifications</a>
 	(Site Patterns version: <strong><?php echo (isset($version) ? $version : 'Unknown'); ?></strong>)
 	</p>
 	<p>To see if you have the latest versions, <a href="http://fivefilters.org/content-only/latest_version.php?version=<?php echo urlencode(_FF_FTR_VERSION).'&site_config='.urlencode(@$version); ?>">check for updates</a>.</p>
@@ -239,9 +239,9 @@ if (class_exists('ZipArchive') && file_exists($tmp_latest_local)) {
 
 function println($txt) {
 	echo $txt,"<br />\n";
-	ob_end_flush(); 
-    ob_flush(); 
-    flush(); 
+	ob_end_flush();
+    ob_flush();
+    flush();
 }
 
 function rrmdir($dir) {

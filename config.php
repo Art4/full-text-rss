@@ -523,7 +523,7 @@ $options->cache_cleanup = 100;
 /// DO NOT CHANGE ANYTHING BELOW THIS ///////////
 /////////////////////////////////////////////////
 
-if (!defined('_FF_FTR_VERSION')) define('_FF_FTR_VERSION', '3.8.2-p3');
+if (!defined('_FF_FTR_VERSION')) define('_FF_FTR_VERSION', '3.8.2-p5');
 
 if (basename(__FILE__) == 'config.php') {
 	if (file_exists(dirname(__FILE__).'/custom_config.php')) {
